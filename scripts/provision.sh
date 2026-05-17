@@ -81,9 +81,9 @@ fi
 THEME_DEST="$WORKDIR/wp-content/themes/webfusion"
 mkdir -p "$THEME_DEST"
 
-if [ -d "$REPO_DIR/wp-content" ]; then
+if [ -d "$REPO_DIR/web" ]; then
   echo "[INFO] Copiando archivos PHP del repositorio al theme..."
-  cp -r "$REPO_DIR/wp-content/." "$THEME_DEST/"
+  cp -r "$REPO_DIR/web/." "$THEME_DEST/"
 else
   echo "[WARN] No se encontró el directorio wp-content en el repositorio."
 fi
@@ -97,5 +97,5 @@ docker-compose up -d
 echo ""
 echo "========================================="
 echo " ¡Aprovisionamiento completado!"
-echo " WordPress disponible en: http://localhost:8080"
+echo " WordPress disponible en: http://localhost:8081"
 echo "========================================="
