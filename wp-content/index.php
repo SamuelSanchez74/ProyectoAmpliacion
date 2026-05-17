@@ -122,7 +122,7 @@ get_header(); ?>
 
 <!-- ══ HERO ════════════════════════════════════════════════ -->
 <section class="hero">
-  <h2>Tu presencia digital, <br>a medida y sin complicaciones</h2>
+  <h2>Ejemplo de actualización, <br>para el proyecto</h2>
   <p>Diseñamos y desplegamos páginas web corporativas profesionales para pequeños negocios que quieren crecer en internet.</p>
   <a href="#contacto" class="btn">Solicita presupuesto gratis</a>
 </section>
