@@ -64,7 +64,7 @@ mkdir -p "$WORKDIR"
 cp /vagrant/docker-compose.yml "$WORKDIR/docker-compose.yml"
 
 # ----- 6. Clonar / actualizar repositorio de contenido -----
-REPO_URL="${REPO_URL:-https://github.com/SamuelSanchez74/ProyectoAmpliacion.git}"
+REPO_URL="${REPO_URL:-https://github.com/TU_USUARIO/TU_REPOSITORIO.git}"
 REPO_DIR="$WORKDIR/repo"
 
 if [ -d "$REPO_DIR/.git" ]; then
@@ -84,8 +84,11 @@ mkdir -p "$THEME_DEST"
 if [ -d "$REPO_DIR/web" ]; then
   echo "[INFO] Copiando archivos PHP del repositorio al theme..."
   cp -r "$REPO_DIR/web/." "$THEME_DEST/"
+elif [ -d "$REPO_DIR/wp-content" ]; then
+  echo "[INFO] Copiando archivos PHP del repositorio al theme..."
+  cp -r "$REPO_DIR/wp-content/." "$THEME_DEST/"
 else
-  echo "[WARN] No se encontró el directorio wp-content en el repositorio."
+  echo "[WARN] No se encontró el directorio web/ ni wp-content/ en el repositorio."
 fi
 
 # ----- 8. Levantar servicios con Docker Compose -----
@@ -97,5 +100,5 @@ docker-compose up -d
 echo ""
 echo "========================================="
 echo " ¡Aprovisionamiento completado!"
-echo " WordPress disponible en: http://localhost:8081"
+echo " WordPress disponible en: http://localhost:8080"
 echo "========================================="

@@ -5,16 +5,13 @@
  *
  * @package WebFusion
  */
-
-get_header(); ?>
-
+?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html lang="es">
 <head>
-  <meta charset="<?php bloginfo('charset'); ?>">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php bloginfo('name'); ?> – Desarrollo Web Profesional</title>
-  <?php wp_head(); ?>
+  <title>WebFusion Digital S.L. – Desarrollo Web Profesional</title>
   <style>
     /* ── Reset básico ───────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -108,11 +105,11 @@ get_header(); ?>
   </style>
 </head>
 
-<body <?php body_class(); ?>>
+<body>
 
 <!-- ══ HEADER ══════════════════════════════════════════════ -->
 <header class="site-header">
-  <h1><?php bloginfo('name'); ?></h1>
+  <h1>WebFusion Digital S.L.</h1>
   <nav>
     <a href="#servicios">Servicios</a>
     <a href="#nosotros">Nosotros</a>
@@ -122,7 +119,7 @@ get_header(); ?>
 
 <!-- ══ HERO ════════════════════════════════════════════════ -->
 <section class="hero">
-  <h2>Ejemplo de actualización, <br>para el proyecto</h2>
+  <h2>Tu presencia digital, <br>a medida y sin complicaciones</h2>
   <p>Diseñamos y desplegamos páginas web corporativas profesionales para pequeños negocios que quieren crecer en internet.</p>
   <a href="#contacto" class="btn">Solicita presupuesto gratis</a>
 </section>
@@ -188,11 +185,8 @@ get_header(); ?>
 
 <!-- ══ FOOTER ══════════════════════════════════════════════ -->
 <footer class="site-footer">
-  <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?> – Todos los derechos reservados.</p>
+  <p>&copy; <?php echo date('Y'); ?> WebFusion Digital S.L. – Todos los derechos reservados.</p>
 </footer>
 
-<?php wp_footer(); ?>
 </body>
 </html>
-
-<?php get_footer(); ?>
