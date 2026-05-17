@@ -1,0 +1,92 @@
+version: "3.9"
+
+# =============================================================
+# docker-compose.yml – WebFusion Digital S.L.
+# Servicios: WordPress + MySQL + Git-Sync
+# =============================================================
+
+services:
+
+  # ── Base de datos MySQL ─────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: webfusion_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppassword
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - webfusion_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── WordPress ───────────────────────────────────────────────
+  wordpress:
+    image: wordpress:6.5-apache
+    container_name: webfusion_wp
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppassword
+      WORDPRESS_TABLE_PREFIX: wp_
+    volumes:
+      # Volumen persistente de WordPress
+      - wp_data:/var/www/html
+      # Montar el theme personalizado directamente desde el host
+      - /opt/webfusion/wp-content/themes/webfusion:/var/www/html/wp-content/themes/webfusion
+    networks:
+      - webfusion_net
+
+  # ── Git-Sync (actualización automática del código) ──────────
+  git-sync:
+    image: alpine/git:latest
+    container_name: webfusion_gitsync
+    restart: "no"               # Se ejecuta una vez por provision
+    environment:
+      REPO_URL: ${REPO_URL:-https://github.com/TU_USUARIO/TU_REPOSITORIO.git}
+      BRANCH: ${BRANCH:-main}
+    volumes:
+      - /opt/webfusion/repo:/repo
+      - /opt/webfusion/wp-content/themes/webfusion:/theme
+    entrypoint: /bin/sh
+    command: >
+      -c "
+        if [ -d /repo/.git ]; then
+          echo 'Actualizando repositorio...';
+          git -C /repo pull --rebase origin $${BRANCH};
+        else
+          echo 'Clonando repositorio...';
+          git clone --branch $${BRANCH} $${REPO_URL} /repo;
+        fi;
+        echo 'Copiando archivos PHP al theme...';
+        cp -r /repo/wp-content/. /theme/;
+        echo 'Sincronización completada.'
+      "
+    networks:
+      - webfusion_net
+
+# ── Volúmenes persistentes ──────────────────────────────────
+volumes:
+  db_data:
+    driver: local
+  wp_data:
+    driver: local
+
+# ── Red interna ─────────────────────────────────────────────
+networks:
+  webfusion_net:
+    driver: bridge

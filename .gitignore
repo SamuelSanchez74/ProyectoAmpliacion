@@ -1,0 +1,18 @@
+# Vagrant
+.vagrant/
+
+# Variables de entorno sensibles
+.env
+
+# Directorios generados en la VM
+/opt/
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
